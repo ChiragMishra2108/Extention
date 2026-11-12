@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Snap Summary</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/>
+          <circle cx="12" cy="12" r="1.6" fill="#fff" stroke="none"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>Snap Summary</h1>
+        <p class="hint">Shortcut <kbd id="shortcut">…</kbd></p>
+      </div>
+    </div>
+    <button id="capture-btn" class="btn btn-primary" type="button">Summarize this tab</button>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" role="tab" aria-selected="true" data-tab="summary" type="button">Summary</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="history" type="button">History</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="settings" type="button">Settings</button>
+  </nav>
+
+  <main>
+    <!-- Summary -->
+    <section id="tab-summary" class="panel">
+      <div id="status" class="status hidden" role="status">
+        <div class="spinner" aria-hidden="true"></div>
+        <span id="status-text"></span>
+      </div>
+
+      <div id="error" class="alert hidden" role="alert">
+        <span id="error-text"></span>
+        <button id="error-dismiss" class="icon-btn" type="button" aria-label="Dismiss">×</button>
+      </div>
+
+      <div id="empty" class="empty">
+        <p class="empty-title">No summaries yet</p>
+        <p>Open any page and press the shortcut, or use the button above. Your summary shows up here.</p>
+      </div>
+
+      <article id="result" class="result hidden">
+        <div class="result-head">
+          <h2 id="result-title"></h2>
+          <p id="result-sub" class="meta"></p>
+        </div>
+        <div id="summary" class="prose"></div>
+        <div class="actions">
+          <button id="copy-btn" class="btn btn-ghost" type="button">Copy to clipboard</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- History -->
+    <section id="tab-history" class="panel hidden">
+      <div id="history-list" class="history"></div>
+      <p id="history-empty" class="empty hidden">Summaries you generate are kept here, on this device only.</p>
+      <div class="actions end">
+        <button id="clear-history" class="btn btn-ghost" type="button">Clear history</button>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="tab-settings" class="panel hidden">
+      <p id="setup-note" class="note hidden">Add an API key to get started. It's stored only in this browser.</p>
+
+      <label class="field">
+        <span class="label">AI provider</span>
+        <select id="provider">
+          <option value="gemini">Google Gemini</option>
+          <option value="openai">OpenAI</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="label">API key</span>
+        <div class="input-row">
+          <input id="api-key" type="password" autocomplete="off" spellcheck="false">
+          <button id="toggle-key" class="btn btn-ghost" type="button">Show</button>
+        </div>
+        <a id="key-link" class="link" href="#" target="_blank" rel="noopener noreferrer"></a>
+      </label>
+
+      <label class="field">
+        <span class="label">Model</span>
+        <input id="model" type="text" autocomplete="off" spellcheck="false">
+      </label>
+
+      <label class="check">
+        <input id="auto-open" type="checkbox">
+        <span>Open this popup when a summary is ready</span>
+      </label>
+
+      <div class="actions">
+        <button id="save-btn" class="btn btn-primary" type="button">Save settings</button>
+        <span id="save-msg" class="saved hidden" role="status">Saved</span>
+        <button id="shortcut-btn" class="btn btn-ghost push" type="button">Change shortcut</button>
+      </div>
+
+      <p class="fineprint">When you capture, the screenshot of the visible part of the tab is sent to the provider you picked, using your key. Nothing goes anywhere else.</p>
+    </section>
+  </main>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
